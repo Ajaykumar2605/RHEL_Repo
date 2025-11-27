@@ -1,0 +1,17 @@
+Online Remote Repository Setup Guide (Full Detailed Instructions)
+
+1. Create Repository File
+  sudo nano /etc/yum.repos.d/online.repo
+Add:
+[online]
+name=Online Web Repository
+baseurl=https://packages.example.com/rpm
+enabled=1
+gpgcheck=0
+
+2. Clean Cache & Verify
+  sudo dnf clean all
+  sudo dnf repolist
+
+Test:
+  sudo dnf install <package>
