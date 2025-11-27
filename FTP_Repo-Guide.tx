@@ -1,0 +1,34 @@
+FTP Repository Setup Guide (Full Detailed Instructions)
+
+1. Set up FTP Server to host repository
+Install FTP service:
+  sudo dnf install vsftpd -y
+
+Create repository directory:
+  sudo mkdir -p /var/ftp/pub/repo
+
+Copy RPM files:
+  sudo cp /path/to/*.rpm /var/ftp/pub/repo
+
+2. Generate Metadata
+  sudo dnf install createrepo -y
+  sudo createrepo /var/ftp/pub/repo
+
+Start and enable FTP service:
+  sudo systemctl enable --now vsftpd
+
+3. Create Repo File on Client Machine
+  sudo nano /etc/yum.repos.d/ftp.repo
+Add:
+[ftprepo]
+name=FTP Repository
+baseurl=ftp://SERVER_IP/pub/repo
+enabled=1
+gpgcheck=0
+
+4. Clean Cache & Verify
+  sudo dnf clean all
+  sudo dnf repolist
+
+Test:
+  sudo dnf install <package>
