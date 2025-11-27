@@ -1,0 +1,34 @@
+HTTP Repository Setup Guide (Full Detailed Instructions)
+
+1. Set up HTTP Server to host repository
+Install Apache Web Server:
+  sudo dnf install httpd -y
+
+Create a repository directory:
+  sudo mkdir -p /var/www/html/repo
+
+Copy RPMs into repo folder:
+  sudo cp /path/to/*.rpm /var/www/html/repo
+
+2. Generate Repository Metadata
+  sudo dnf install createrepo -y
+  sudo createrepo /var/www/html/repo
+
+Start and enable Apache:
+  sudo systemctl enable --now httpd
+
+3. Create Repo File on Client Machine
+  sudo nano /etc/yum.repos.d/http.repo
+Add:
+[httprepo]
+name=HTTP Repository
+baseurl=http://SERVER_IP/repo
+enabled=1
+gpgcheck=0
+
+4. Clean Cache & Verify
+  sudo dnf clean all
+  sudo dnf repolist
+
+Test:
+  sudo dnf install <package>
