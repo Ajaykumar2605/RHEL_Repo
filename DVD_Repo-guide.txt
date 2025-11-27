@@ -1,8 +1,6 @@
 DVD Repository Setup Guide (Full Detailed Instructions)
-======================================================
-------------------------------------------------------
+
 1. Mount the DVD/ISO
-------------------------------------------------------
 Create a mount point where the content will be accessible:
   sudo mkdir -p /dvd
 
@@ -12,12 +10,9 @@ Mount the DVD drive to the mount point:
 (If using an ISO file instead of physical DVD)
   sudo mount -o loop /path/to/file.iso /dvd
 
-------------------------------------------------------
 2. Create Repo File
-------------------------------------------------------
 Open a new repo configuration file:
   sudo nano /etc/yum.repos.d/dvd.repo
-
 Add the following:
 [dvd]
 name=Local DVD Repository
@@ -25,9 +20,7 @@ baseurl=file:///dvd
 enabled=1
 gpgcheck=0
 
-------------------------------------------------------
 3. Clean Cache & Verify
-------------------------------------------------------
   sudo dnf clean all
   sudo dnf repolist
 
@@ -35,7 +28,3 @@ Expected output should show the "dvd" repo.
 
 Test installation:
   sudo dnf install <package-name>
-
-------------------------------------------------------
-DVD Repo setup complete.
-------------------------------------------------------
