@@ -1,0 +1,31 @@
+Local Directory Repository Setup Guide (Full Detailed Instructions)
+
+1. Create repository directory
+  sudo mkdir -p /repo
+
+Copy or move RPMs into the directory:
+  sudo cp /path/to/*.rpm /repo
+
+2. Generate Repository Metadata
+
+Install createrepo if not installed:
+  sudo dnf install createrepo -y
+
+Create metadata:
+  sudo createrepo /repo
+
+3. Create Repo Configuration File
+  sudo nano /etc/yum.repos.d/local.repo
+Add:
+[local]
+name=Local Directory Repo
+baseurl=file:///repo
+enabled=1
+gpgcheck=0
+
+4. Clean Cache & Verify
+  sudo dnf clean all
+  sudo dnf repolist
+
+Test:
+  sudo dnf install <package>
