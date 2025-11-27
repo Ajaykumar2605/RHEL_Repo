@@ -1,0 +1,42 @@
+NFS Repository Setup Guide (Full Detailed Instructions)
+
+1. Configure NFS Repository Server
+Install NFS utilities:
+  sudo dnf install nfs-utils -y
+
+Create NFS repo path:
+  sudo mkdir -p /nfsrepo
+  sudo cp /path/to/*.rpm /nfsrepo
+
+Generate metadata:
+  sudo dnf install createrepo -y
+  sudo createrepo /nfsrepo
+
+Export folder to all clients:
+  echo "/nfsrepo *(rw)" | sudo tee -a /etc/exports
+
+Apply export settings:
+  sudo exportfs -r
+  sudo systemctl enable --now nfs-server
+
+2. Configure NFS Client
+Create local mount point:
+  sudo mkdir /repo
+
+Mount repo:
+  sudo mount SERVER_IP:/nfsrepo /repo
+
+3. Create Repo File
+  sudo nano /etc/yum.repos.d/nfs.repo
+
+Add:
+[nfsrepo]
+name=NFS Repository
+baseurl=file:///repo
+enabled=1
+gpgcheck=0
+
+4. Verify
+  sudo dnf clean all
+  sudo dnf repolist
+  sudo dnf install <package>
